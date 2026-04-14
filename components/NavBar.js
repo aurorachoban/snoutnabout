@@ -30,6 +30,16 @@ export default function NavBar() {
     router.push("/");
   }
 
+  const categories = [
+    { label: "All",         href: "/products" },
+    { label: "Dogs",        href: "/products?category=dog" },
+    { label: "Cats",        href: "/products?category=cat" },
+    { label: "Food",        href: "/products?type=food" },
+    { label: "Toys",        href: "/products?type=toys" },
+    { label: "Treats",      href: "/products?type=treats" },
+    { label: "Accessories", href: "/products?type=accessories" },
+  ];
+
   return (
     <>
       <header className="sticky top-0 z-40 bg-white border-b border-pink-100 shadow-sm">
@@ -125,6 +135,21 @@ export default function NavBar() {
               </button>
             </div>
           </form>
+        </div>
+
+        {/* Category strip — pink bar below the main nav row */}
+        <div className="bg-pink-500 overflow-x-auto">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-1 min-w-max sm:min-w-0 sm:justify-center">
+            {categories.map((cat) => (
+              <Link
+                key={cat.label}
+                href={cat.href}
+                className="px-4 py-2.5 text-sm font-semibold text-white/90 hover:text-white hover:bg-pink-600 transition-colors whitespace-nowrap"
+              >
+                {cat.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </header>
 
