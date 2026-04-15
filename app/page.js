@@ -4,7 +4,7 @@ import CategoryNav from "@/components/CategoryNav";
 import { collection, getDocs, query, limit, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import ProductCard from "@/components/ProductCard";
-import {Truck, Heart, RotateCcw, PawPrint } from "@/components/Icons";
+import { Dog, Cat, Truck, Heart, RotateCcw, PawPrint } from "@/components/Icons";
 
 // Force dynamic rendering — prevents Next.js from trying to statically
 // prerender this page at build time (Firestore can't be called during build)
@@ -121,7 +121,7 @@ export default async function Home() {
             <Link href="/products?category=dog" className="self-start mt-4 px-4 py-2 bg-amber-800 text-white rounded-full text-sm font-semibold hover:bg-amber-900 transition-colors">
               Shop Dogs →
             </Link>
-            <img src="/icons/promo-dog.jpg" alt="Dog" className="absolute right-0 bottom-0 h-full w-40 object-cover object-top opacity-90" />
+            <img src="/icons/promo-dog.jpg" alt="Dog" className="absolute right-0 bottom-0 h-full w-36 object-cover object-top" />
           </div>
           <div className="relative rounded-3xl overflow-hidden bg-linear-to-br from-purple-100 to-pink-200 p-8 flex flex-col justify-between min-h-45">
             <div>
@@ -131,7 +131,7 @@ export default async function Home() {
             <Link href="/products?category=cat" className="self-start mt-4 px-4 py-2 bg-purple-800 text-white rounded-full text-sm font-semibold hover:bg-purple-900 transition-colors">
               Shop Cats →
             </Link>
-            <img src="/icons/promo-cat.jpg" alt="Cat" className="absolute right-0 bottom-0 h-full w-40 object-cover object-center opacity-90" />
+            <img src="/icons/promo-cat.jpg" alt="Cat" className="absolute right-0 bottom-0 h-full w-36 object-cover object-center" />
           </div>
         </div>
       </section>
