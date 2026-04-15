@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import CategoryNav from "@/components/CategoryNav";
-import { collection, getDocs, query, where, limit } from "firebase/firestore";
+import { collection, getDocs, query, limit, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import ProductCard from "@/components/ProductCard";
 
