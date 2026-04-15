@@ -5,16 +5,22 @@ import { collection, getDocs, query, limit, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import ProductCard from "@/components/ProductCard";
 
+
+
 // Force dynamic rendering — prevents Next.js from trying to statically
 // prerender this page at build time (Firestore can't be called during build)
 export const dynamic = "force-dynamic";
 
-// Fetches up to 8 products marked as featured from Firestore
+// Fetches products marked as featured for the homepage grid
 async function getFeaturedProducts() {
   try {
     const q = query(collection(db, "products"), where("featured", "==", true), limit(8));
     const snap = await getDocs(q);
-    return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    return snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+      createdAt: d.data().createdAt?.toDate?.()?.toISOString() ?? null,
+    }));
   } catch {
     return [];
   }
@@ -60,23 +66,30 @@ export default async function Home() {
                 </Link>
               </div>
             </div>
-            <div className="shrink-0 text-[10rem] leading-none select-none hidden sm:block">
-              🐾
+            {/* Hero image — hidden on mobile */}
+            <div className="shrink-0 hidden sm:block w-72 h-72 rounded-3xl overflow-hidden shadow-2xl shadow-pink-200">
+              <img
+                src="/products/home-pic.jpg"
+                alt="Happy pets"
+                className="w-full h-full object-cover object-center"
+              />
             </div>
           </div>
         </div>
-        {/* Decorative blurred blobs — purely visual */}
+        {/* Decorative background blobs */}
         <div className="absolute -top-16 -right-16 w-72 h-72 bg-pink-200/30 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-lime-200/30 rounded-full blur-3xl pointer-events-none" />
       </section>
 
-      {/* Category shortcut pills */}
+      {/* Category navigation cards */}
       <section className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-black text-gray-900 text-center mb-4">Browse by Category</h2>
-        <CategoryNav />
+        <Suspense fallback={<div className="h-24" />}>
+          <CategoryNav />
+        </Suspense>
       </section>
 
-      {/* Featured product grid — falls back to a placeholder when Firestore is empty */}
+      {/* Featured products grid */}
       <section className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-black text-gray-900">Featured Products</h2>
@@ -89,6 +102,7 @@ export default async function Home() {
             ))}
           </div>
         ) : (
+          // Empty state shown before seeding Firestore
           <div className="text-center py-16 text-gray-400">
             <p className="text-4xl mb-3">🐾</p>
             <p className="font-medium">Products coming soon!</p>
@@ -97,7 +111,7 @@ export default async function Home() {
         )}
       </section>
 
-      {/* Promotional banners for dog and cat shoppers */}
+      {/* Dog / Cat promo banners */}
       <section className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         <div className="grid sm:grid-cols-2 gap-4">
           <div className="relative rounded-3xl overflow-hidden bg-linear-to-br from-amber-100 to-orange-200 p-8 flex flex-col justify-between min-h-45">
@@ -123,7 +137,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Value proposition strip */}
+      {/* Value props */}
       <section className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         <div className="grid sm:grid-cols-3 gap-6 text-center">
           {[

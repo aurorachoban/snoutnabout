@@ -1,36 +1,56 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 
-// Sub-type categories shared by both dogs and cats
-const typeCategories = [
-  { label: "Food",        emoji: "🍖", type: "food",        bg: "bg-pink-100",   border: "border-pink-300",   text: "text-pink-800"   },
-  { label: "Toys",        emoji: "🎾", type: "toys",        bg: "bg-lime-100",   border: "border-lime-300",   text: "text-lime-800"   },
-  { label: "Treats",      emoji: "🦴", type: "treats",      bg: "bg-orange-100", border: "border-orange-300", text: "text-orange-800" },
-  { label: "Accessories", emoji: "🎀", type: "accessories", bg: "bg-blue-100",   border: "border-blue-300",   text: "text-blue-800"   },
-];
-
-// Default top-level categories shown when no filter is active
+// Category nav icons live in /public/icons/
+// Product card images stay in /public/products/
 const topCategories = [
-  { label: "All",         emoji: "🐾", href: "/products",              bg: "bg-gray-100",   border: "border-gray-300",   text: "text-gray-800"   },
-  { label: "Dogs",        emoji: "🐶", href: "/products?category=dog", bg: "bg-amber-100",  border: "border-amber-300",  text: "text-amber-800"  },
-  { label: "Cats",        emoji: "🐱", href: "/products?category=cat", bg: "bg-purple-100", border: "border-purple-300", text: "text-purple-800" },
-  { label: "Food",        emoji: "🍖", href: "/products?type=food",        bg: "bg-pink-100",   border: "border-pink-300",   text: "text-pink-800"   },
-  { label: "Toys",        emoji: "🎾", href: "/products?type=toys",        bg: "bg-lime-100",   border: "border-lime-300",   text: "text-lime-800"   },
-  { label: "Treats",      emoji: "🦴", href: "/products?type=treats",      bg: "bg-orange-100", border: "border-orange-300", text: "text-orange-800" },
-  { label: "Accessories", emoji: "🎀", href: "/products?type=accessories", bg: "bg-blue-100",   border: "border-blue-300",   text: "text-blue-800"   },
+  { label: "All",         href: "/products",                  img: "/products/home-pic.jpg" },
+  { label: "Dogs",        href: "/products?category=dog",     img: "/icons/all-dog.jpg", objectPosition: "center 20%" },
+  { label: "Cats",        href: "/products?category=cat",     img: "/icons/all-cat.jpg" },
+  { label: "Food",        href: "/products?type=food",        img: "/icons/food-dog.jpg" },
+  { label: "Toys",        href: "/products?type=toys",        img: "/icons/dog-toy.jpg" },
+  { label: "Treats",      href: "/products?type=treats",      img: "/icons/all-treats.jpg" },
+  { label: "Accessories", href: "/products?type=accessories", img: "/icons/all-accessories.webp" },
 ];
 
-// Shared pill card used in all three states
-function CategoryPill({ cat, active }) {
+// Dog-specific sub-type images
+const dogTypeCategories = [
+  { label: "Food",        type: "food",        img: "/icons/dog-foods.jpg" },
+  { label: "Toys",        type: "toys",        img: "/icons/dog-toy.jpg" },
+  { label: "Treats",      type: "treats",      img: "/icons/treats-dog.jpg" },
+  { label: "Accessories", type: "accessories", img: "/icons/dog-accessories.jpg" },
+];
+
+// Cat-specific sub-type images
+const catTypeCategories = [
+  { label: "Food",        type: "food",        img: "/icons/cat-food.jpg" },
+  { label: "Toys",        type: "toys",        img: "/icons/cat-toy.jpg" },
+  { label: "Treats",      type: "treats",      img: "/icons/cat-treat.jpg" },
+  { label: "Accessories", type: "accessories", img: "/icons/cat-accessories.jpg" },
+];
+
+// Round photo card with label underneath
+// objectPosition overrides the crop anchor (e.g. "center 70%" to push the subject down)
+function CategoryCard({ label, href, img, active, objectPosition = "center" }) {
   return (
-    <Link
-      href={cat.href}
-      className={`flex flex-col items-center gap-1.5 px-5 py-3 rounded-2xl border-2 ${cat.bg} ${cat.border} ${cat.text} font-semibold text-sm hover:scale-105 transition-transform ${active ? "ring-2 ring-offset-1 ring-current" : ""}`}
-    >
-      <span className="text-2xl">{cat.emoji}</span>
-      <span>{cat.label}</span>
+    <Link href={href} className="flex flex-col items-center gap-2 group">
+      <div className={`relative w-20 h-20 rounded-full overflow-hidden border-4 transition-all ${
+        active ? "border-pink-500 scale-105" : "border-transparent group-hover:border-pink-300 group-hover:scale-105"
+      }`}>
+        <Image
+          src={img}
+          alt={label}
+          fill
+          className="object-cover"
+          style={{ objectPosition }}
+        />
+      </div>
+      <span className={`text-xs font-semibold ${active ? "text-pink-500" : "text-gray-600 group-hover:text-pink-500"} transition-colors`}>
+        {label}
+      </span>
     </Link>
   );
 }
@@ -38,9 +58,9 @@ function CategoryPill({ cat, active }) {
 function NavRow({ items, activeHref }) {
   return (
     <nav className="w-full overflow-x-auto py-4">
-      <div className="flex gap-3 min-w-max px-4 sm:px-0 justify-center">
+      <div className="flex gap-6 min-w-max px-4 sm:px-0 justify-center">
         {items.map((cat) => (
-          <CategoryPill key={cat.label} cat={cat} active={cat.href === activeHref} />
+          <CategoryCard key={cat.label} {...cat} active={cat.href === activeHref} />
         ))}
       </div>
     </nav>
@@ -54,31 +74,32 @@ export default function CategoryNav() {
 
   // Inside Dogs or Cats — show sub-type cards filtered to that animal
   if (category === "dog" || category === "cat") {
+    const isDog = category === "dog";
     const allCard = {
-      label: category === "dog" ? "All Dogs" : "All Cats",
-      emoji: category === "dog" ? "🐶" : "🐱",
+      label: isDog ? "All Dogs" : "All Cats",
       href: `/products?category=${category}`,
-      bg:     category === "dog" ? "bg-amber-100"  : "bg-purple-100",
-      border: category === "dog" ? "border-amber-300"  : "border-purple-300",
-      text:   category === "dog" ? "text-amber-800" : "text-purple-800",
+      img: isDog ? "/icons/all-dog.jpg" : "/icons/all-cat.jpg",
+      objectPosition: isDog ? "center 20%" : "center",
     };
+    const subTypes = isDog ? dogTypeCategories : catTypeCategories;
     const items = [
       allCard,
-      ...typeCategories.map((t) => ({ ...t, href: `/products?category=${category}&type=${t.type}` })),
+      ...subTypes.map((t) => ({ ...t, href: `/products?category=${category}&type=${t.type}` })),
     ];
-    return <NavRow items={items} activeHref={type ? `/products?category=${category}&type=${type}` : `/products?category=${category}`} />;
+    const activeHref = type ? `/products?category=${category}&type=${type}` : `/products?category=${category}`;
+    return <NavRow items={items} activeHref={activeHref} />;
   }
 
-  // Inside a type (food / toys / etc.) — show All + Dogs + Cats for that type
+  // Inside a type — show All + Dogs + Cats for that type
   if (type) {
     const items = [
-      { label: "All",  emoji: "🐾", href: `/products?type=${type}`,              bg: "bg-gray-100",   border: "border-gray-300",   text: "text-gray-800"   },
-      { label: "Dogs", emoji: "🐶", href: `/products?category=dog&type=${type}`, bg: "bg-amber-100",  border: "border-amber-300",  text: "text-amber-800"  },
-      { label: "Cats", emoji: "🐱", href: `/products?category=cat&type=${type}`, bg: "bg-purple-100", border: "border-purple-300", text: "text-purple-800" },
+      { label: "All",  href: `/products?type=${type}`,              img: "/products/home-pic.jpg" },
+      { label: "Dogs", href: `/products?category=dog&type=${type}`, img: "/icons/all-dog.jpg", objectPosition: "center 20%" },
+      { label: "Cats", href: `/products?category=cat&type=${type}`, img: "/icons/all-cat.jpg" },
     ];
     return <NavRow items={items} activeHref={`/products?type=${type}`} />;
   }
 
-  // Default — show all top-level categories
+  // Default — all top-level categories
   return <NavRow items={topCategories} activeHref="/products" />;
 }
