@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import Image from "next/image";
 
 const CATEGORIES = ["dog", "cat"];
 const TYPES = ["food", "treats", "toys", "accessories", "grooming", "health"];
@@ -194,8 +193,8 @@ export default function AddProductForm({ onAdded }) {
           />
         </div>
         {form.imageUrl.trim() && (
-          <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-gray-100">
-            <Image src={form.imageUrl.trim()} alt="preview" fill className="object-cover" sizes="96px" unoptimized />
+          <div className="w-24 h-24 rounded-xl overflow-hidden border border-gray-100">
+            <img src={form.imageUrl.trim()} alt="preview" className="w-full h-full object-cover" />
           </div>
         )}
       </section>
