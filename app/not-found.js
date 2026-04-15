@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PawPrint } from "@/components/Icons";
 
 export const metadata = {
   title: "Page Not Found — Snout & About",
@@ -8,7 +9,7 @@ export default function NotFound() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4">
       <div className="text-center max-w-md">
-        <div className="text-8xl mb-4 select-none">🐾</div>
+        <PawPrint className="w-24 h-24 mx-auto mb-4 text-pink-300" />
         <h1 className="text-6xl font-black text-gray-900 mb-3">404</h1>
         <p className="text-xl font-bold text-gray-700 mb-2">Oops! This page ran away.</p>
         <p className="text-gray-500 mb-8">

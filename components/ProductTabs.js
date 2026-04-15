@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Truck, Lightning, RotateCcw, Check } from "@/components/Icons";
 
 const TABS = ["Description", "Ingredients", "Delivery"];
 
@@ -44,7 +45,7 @@ export default function ProductTabs({ description, ingredients, details }) {
                     key={f}
                     className="inline-flex items-center gap-1.5 bg-pink-50 border border-pink-100 text-pink-700 text-xs font-semibold px-3 py-1.5 rounded-full"
                   >
-                    <span>✓</span> {f}
+                    <Check className="w-3.5 h-3.5" /> {f}
                   </span>
                 ))}
               </div>
@@ -75,7 +76,6 @@ export default function ProductTabs({ description, ingredients, details }) {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                       {ingredients.highlights.map((ing) => (
                         <div key={ing.name} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
-                          {ing.emoji && <span className="text-3xl block mb-2">{ing.emoji}</span>}
                           <p className="font-bold text-gray-900 text-sm">{ing.name}</p>
                           <p className="text-xs text-gray-500 mt-1 leading-relaxed">{ing.benefit}</p>
                         </div>
@@ -101,21 +101,21 @@ export default function ProductTabs({ description, ingredients, details }) {
         {active === "Delivery" && (
           <div className="space-y-4 text-sm text-gray-600">
             <div className="flex gap-4 items-start p-4 bg-green-50 rounded-2xl border border-green-100">
-              <span className="text-2xl shrink-0">🚚</span>
+              <Truck className="w-6 h-6 shrink-0 text-green-600" />
               <div>
                 <p className="font-bold text-gray-900">Free Standard Delivery</p>
                 <p>On all orders over $50. Delivered within 3–5 business days.</p>
               </div>
             </div>
             <div className="flex gap-4 items-start p-4 bg-pink-50 rounded-2xl border border-pink-100">
-              <span className="text-2xl shrink-0">⚡</span>
+              <Lightning className="w-6 h-6 shrink-0 text-pink-500" />
               <div>
                 <p className="font-bold text-gray-900">Express Delivery — $9.99</p>
                 <p>Next business day when ordered before 2pm.</p>
               </div>
             </div>
             <div className="flex gap-4 items-start p-4 bg-gray-50 rounded-2xl border border-gray-100">
-              <span className="text-2xl shrink-0">🔄</span>
+              <RotateCcw className="w-6 h-6 shrink-0 text-gray-500" />
               <div>
                 <p className="font-bold text-gray-900">Easy Returns</p>
                 <p>Not happy? Return within 30 days for a full refund — no questions asked.</p>

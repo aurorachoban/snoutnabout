@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { doc, setDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useState } from "react";
+import { Dog, Cat } from "@/components/Icons";
 
 // Renders 5 star icons, filling up to the rounded rating value
 function StarRating({ rating }) {
@@ -89,8 +90,8 @@ export default function ProductCard({ product }) {
             sizes="(max-width: 768px) 50vw, 25vw"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-5xl">
-            {product.category === "cat" ? "🐱" : "🐶"}
+          <div className="w-full h-full flex items-center justify-center">
+            {product.category === "cat" ? <Cat className="w-16 h-16 text-gray-300" /> : <Dog className="w-16 h-16 text-gray-300" />}
           </div>
         )}
       </Link>

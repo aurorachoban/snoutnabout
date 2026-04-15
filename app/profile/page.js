@@ -6,6 +6,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { collection, getDocs, query, where, doc, getDoc, setDoc, arrayRemove } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Link from "next/link";
+import { Package, Heart } from "@/components/Icons";
 
 // Compact order summary card — truncates item list to 2 with "+N more" overflow
 function OrderCard({ order }) {
@@ -142,7 +143,7 @@ function ProfileContent() {
       ) : tab === "orders" ? (
         orders.length === 0 ? (
           <div className="text-center py-16 text-gray-400">
-            <p className="text-4xl mb-3">📦</p>
+            <Package className="w-12 h-12 mx-auto mb-3 text-gray-300" />
             <p className="font-medium">No orders yet</p>
             <Link href="/products" className="text-pink-500 text-sm font-semibold hover:underline mt-2 inline-block">Start shopping</Link>
           </div>
@@ -154,7 +155,7 @@ function ProfileContent() {
       ) : (
         wishlist.length === 0 ? (
           <div className="text-center py-16 text-gray-400">
-            <p className="text-4xl mb-3">❤️</p>
+            <Heart className="w-12 h-12 mx-auto mb-3 text-gray-300" />
             <p className="font-medium">Your wishlist is empty</p>
             <Link href="/products" className="text-pink-500 text-sm font-semibold hover:underline mt-2 inline-block">Browse products</Link>
           </div>

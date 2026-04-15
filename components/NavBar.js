@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
 import CartDrawer from "./CartDrawer";
+import { PawPrint } from "@/components/Icons";
 
 export default function NavBar() {
   const { user, logout } = useAuth();
@@ -47,7 +48,7 @@ export default function NavBar() {
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 shrink-0">
-              <span className="text-2xl">🐾</span>
+              <PawPrint className="w-6 h-6 text-pink-500" />
               <span className="font-black text-xl tracking-tight text-gray-900">
                 Snout <span className="text-pink-500">&amp;</span> About
               </span>

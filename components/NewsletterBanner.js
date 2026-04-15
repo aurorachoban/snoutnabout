@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PawPrint, Check } from "@/components/Icons";
 
 export default function NewsletterBanner() {
   const [email, setEmail] = useState("");
@@ -14,9 +15,9 @@ export default function NewsletterBanner() {
   }
 
   return (
-    <section className="bg-linear-to-br from-pink-500 to-pink-600 text-white py-16 px-4">
+    <section className="bg-gradient-to-br from-pink-500 to-pink-600 text-white py-16 px-4">
       <div className="max-w-2xl mx-auto text-center">
-        <p className="text-4xl mb-3 select-none">🐾</p>
+        <PawPrint className="w-12 h-12 mx-auto mb-3 text-pink-200" />
         <h2 className="text-3xl font-black tracking-tight mb-2">Stay in Touch</h2>
         <p className="text-pink-100 mb-8 text-base">
           Sign up for new arrivals, exclusive promos, and pet care tips — and get{" "}
@@ -28,7 +29,7 @@ export default function NewsletterBanner() {
 
         {submitted ? (
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-6 py-3 font-semibold">
-            <span>✓</span> You&apos;re on the list — check your inbox!
+            <Check className="w-5 h-5" /> You&apos;re on the list — check your inbox!
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">

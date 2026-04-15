@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/contexts/CartContext";
+import { ShoppingCart, PawPrint } from "@/components/Icons";
 
 // Slide-in cart panel rendered over the page from the right side
 export default function CartDrawer({ open, onClose }) {
@@ -49,7 +50,7 @@ export default function CartDrawer({ open, onClose }) {
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
-              <span className="text-6xl">🛒</span>
+              <ShoppingCart className="w-16 h-16 text-gray-300" />
               <p className="text-gray-500 font-medium">Your cart is empty</p>
               <Link
                 href="/products"
@@ -66,7 +67,7 @@ export default function CartDrawer({ open, onClose }) {
                   {item.image ? (
                     <Image src={item.image} alt={item.name} fill className="object-cover" sizes="64px" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-2xl">🐾</div>
+                    <div className="w-full h-full flex items-center justify-center"><PawPrint className="w-6 h-6 text-gray-300" /></div>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">

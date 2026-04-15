@@ -6,6 +6,7 @@ import { ref, deleteObject } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
 import Image from "next/image";
 import Link from "next/link";
+import { Package, Dog, Cat, Star } from "@/components/Icons";
 
 export default function ProductList({ refreshKey }) {
   const [products, setProducts] = useState([]);
@@ -91,7 +92,7 @@ export default function ProductList({ refreshKey }) {
 
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-gray-400">
-          <p className="text-4xl mb-3">📦</p>
+          <Package className="w-12 h-12 mx-auto mb-3 text-gray-300" />
           <p className="font-medium">{products.length === 0 ? "No products yet — add one above!" : "No results found."}</p>
         </div>
       ) : (
@@ -104,7 +105,7 @@ export default function ProductList({ refreshKey }) {
                   <Image src={product.image} alt={product.name} fill className="object-cover" sizes="56px" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-2xl">
-                    {product.category === "cat" ? "🐱" : "🐶"}
+                    {product.category === "cat" ? <Cat className="w-7 h-7 text-gray-300" /> : <Dog className="w-7 h-7 text-gray-300" />}
                   </div>
                 )}
               </div>
@@ -130,7 +131,7 @@ export default function ProductList({ refreshKey }) {
                       : "bg-gray-100 border-gray-200 text-gray-400 hover:border-yellow-300"
                   }`}
                 >
-                  ★ {product.featured ? "Featured" : "Feature"}
+                  <Star className="w-3.5 h-3.5 inline mr-0.5" />{product.featured ? "Featured" : "Feature"}
                 </button>
                 <button
                   onClick={() => toggleStock(product)}
