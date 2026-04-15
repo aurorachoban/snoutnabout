@@ -4,7 +4,7 @@ import CategoryNav from "@/components/CategoryNav";
 import { collection, getDocs, query, limit, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import ProductCard from "@/components/ProductCard";
-import {Truck, Heart, RotateCcw, PawPrint } from "@/components/icons";
+import {Truck, Heart, RotateCcw, PawPrint } from "@/components/Icons";
 
 // Force dynamic rendering — prevents Next.js from trying to statically
 // prerender this page at build time (Firestore can't be called during build)
