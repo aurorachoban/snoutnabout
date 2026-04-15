@@ -104,8 +104,15 @@ export default function NavBar() {
                     </span>
                   </button>
                   {menuOpen && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
+                    <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
                       <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50" onClick={() => setMenuOpen(false)}>Profile</Link>
+                      {user.isAdmin && (
+                        <>
+                          <div className="border-t border-gray-100 my-1" />
+                          <Link href="/admin" className="block px-4 py-2 text-sm text-pink-600 font-semibold hover:bg-pink-50" onClick={() => setMenuOpen(false)}>Admin Panel</Link>
+                        </>
+                      )}
+                      <div className="border-t border-gray-100 my-1" />
                       <button onClick={() => { setMenuOpen(false); handleLogout(); }} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-pink-50">Sign out</button>
                     </div>
                   )}

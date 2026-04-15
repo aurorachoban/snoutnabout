@@ -7,8 +7,6 @@ import { useEffect } from "react";
 import AddProductForm from "./AddProductForm";
 import ProductList from "./ProductList";
 
-const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-
 export default function AdminPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -17,9 +15,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (!loading && !user) router.push("/auth");
-    if (!loading && user && ADMIN_EMAIL && user.email !== ADMIN_EMAIL) {
-      router.push("/");
-    }
+    if (!loading && user && !user.isAdmin) router.push("/");
   }, [user, loading, router]);
 
   if (loading || !user) {

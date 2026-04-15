@@ -23,7 +23,8 @@ export function AuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         const docSnap = await getDoc(doc(db, "users", firebaseUser.uid));
-        setUser({ ...firebaseUser, profile: docSnap.exists() ? docSnap.data() : {} });
+        const profile = docSnap.exists() ? docSnap.data() : {};
+        setUser({ ...firebaseUser, profile, isAdmin: profile.role === "admin" });
       } else {
         setUser(null);
       }
