@@ -4,6 +4,7 @@ import CategoryNav from "@/components/CategoryNav";
 import { collection, getDocs, query, limit, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import ProductCard from "@/components/ProductCard";
+import { Dog, Cat, Truck, Heart, RotateCcw, PawPrint } from "lucide-react";
 
 
 
@@ -54,15 +55,15 @@ export default async function Home() {
               <div className="mt-8 flex flex-wrap gap-3 justify-center sm:justify-start">
                 <Link
                   href="/products?category=dog"
-                  className="px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-full transition-colors shadow-lg shadow-pink-200"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-full transition-colors shadow-lg shadow-pink-200"
                 >
-                  🐶 Shop for Dogs
+                  <Dog className="w-5 h-5" /> Shop for Dogs
                 </Link>
                 <Link
                   href="/products?category=cat"
-                  className="px-6 py-3 bg-white border-2 border-pink-200 hover:border-pink-400 text-gray-800 font-bold rounded-full transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-pink-200 hover:border-pink-400 text-gray-800 font-bold rounded-full transition-colors"
                 >
-                  🐱 Shop for Cats
+                  <Cat className="w-5 h-5" /> Shop for Cats
                 </Link>
               </div>
             </div>
@@ -104,7 +105,7 @@ export default async function Home() {
         ) : (
           // Empty state shown before seeding Firestore
           <div className="text-center py-16 text-gray-400">
-            <p className="text-4xl mb-3">🐾</p>
+            <PawPrint className="w-10 h-10 mx-auto mb-3 text-gray-300" />
             <p className="font-medium">Products coming soon!</p>
             <p className="text-sm mt-1">Check back after you&apos;ve seeded Firestore with products.</p>
           </div>
@@ -122,7 +123,7 @@ export default async function Home() {
             <Link href="/products?category=dog" className="self-start mt-4 px-4 py-2 bg-amber-800 text-white rounded-full text-sm font-semibold hover:bg-amber-900 transition-colors">
               Shop Dogs →
             </Link>
-            <span className="absolute right-6 bottom-4 text-7xl opacity-40 select-none">🐶</span>
+            <Dog className="absolute right-6 bottom-4 w-24 h-24 text-amber-800 opacity-20" />
           </div>
           <div className="relative rounded-3xl overflow-hidden bg-linear-to-br from-purple-100 to-pink-200 p-8 flex flex-col justify-between min-h-45">
             <div>
@@ -132,7 +133,7 @@ export default async function Home() {
             <Link href="/products?category=cat" className="self-start mt-4 px-4 py-2 bg-purple-800 text-white rounded-full text-sm font-semibold hover:bg-purple-900 transition-colors">
               Shop Cats →
             </Link>
-            <span className="absolute right-6 bottom-4 text-7xl opacity-40 select-none">🐱</span>
+            <Cat className="absolute right-6 bottom-4 w-24 h-24 text-purple-800 opacity-20" />
           </div>
         </div>
       </section>
@@ -141,14 +142,14 @@ export default async function Home() {
       <section className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         <div className="grid sm:grid-cols-3 gap-6 text-center">
           {[
-            { icon: "🚚", title: "Free Shipping", desc: "On all orders over $50" },
-            { icon: "❤️", title: "Made with Love", desc: "Curated for happy, healthy pets" },
-            { icon: "🔄", title: "Easy Returns", desc: "30-day hassle-free returns" },
-          ].map((prop) => (
-            <div key={prop.title} className="flex flex-col items-center gap-2 p-6 rounded-2xl bg-pink-50">
-              <span className="text-3xl">{prop.icon}</span>
-              <p className="font-bold text-gray-900">{prop.title}</p>
-              <p className="text-sm text-gray-500">{prop.desc}</p>
+            { icon: Truck,     title: "Free Shipping", desc: "On all orders over $50" },
+            { icon: Heart,     title: "Made with Love", desc: "Curated for happy, healthy pets" },
+            { icon: RotateCcw, title: "Easy Returns",  desc: "30-day hassle-free returns" },
+          ].map(({ icon: Icon, title, desc }) => (
+            <div key={title} className="flex flex-col items-center gap-2 p-6 rounded-2xl bg-pink-50">
+              <Icon className="w-8 h-8 text-pink-500" />
+              <p className="font-bold text-gray-900">{title}</p>
+              <p className="text-sm text-gray-500">{desc}</p>
             </div>
           ))}
         </div>
