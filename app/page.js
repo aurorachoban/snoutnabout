@@ -5,6 +5,10 @@ import { collection, getDocs, query, limit, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import ProductCard from "@/components/ProductCard";
 
+// Force dynamic rendering — prevents Next.js from trying to statically
+// prerender this page at build time (Firestore can't be called during build)
+export const dynamic = "force-dynamic";
+
 // Fetches up to 8 products marked as featured from Firestore
 async function getFeaturedProducts() {
   try {

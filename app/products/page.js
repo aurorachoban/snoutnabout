@@ -5,6 +5,8 @@ import ProductCard from "@/components/ProductCard";
 import CategoryNav from "@/components/CategoryNav";
 import ProductFilters from "./ProductFilters";
 
+export const dynamic = "force-dynamic";
+
 // Fetches products from Firestore, applying category/type filters server-side
 // and keyword search + sorting client-side (Firestore doesn't support full-text search)
 async function getProducts({ category, type, q, sort }) {

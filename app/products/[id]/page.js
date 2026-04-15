@@ -7,6 +7,8 @@ import ProductTabs from "@/components/ProductTabs";
 import ReviewsSection from "./ReviewsSection";
 import AddToCartSection from "./AddToCartSection";
 
+export const dynamic = "force-dynamic";
+
 // Fetches a single product document; returns null if it doesn't exist
 async function getProduct(id) {
   const snap = await getDoc(doc(db, "products", id));
