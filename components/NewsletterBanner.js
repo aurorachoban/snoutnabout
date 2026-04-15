@@ -15,7 +15,7 @@ export default function NewsletterBanner() {
   }
 
   return (
-    <section className="bg-gradient-to-br from-pink-500 to-pink-600 text-white py-16 px-4">
+    <section className="bg-linear-to-br from-pink-500 to-pink-600 text-white py-16 px-4">
       <div className="max-w-2xl mx-auto text-center">
         <PawPrint className="w-12 h-12 mx-auto mb-3 text-pink-200" />
         <h2 className="text-3xl font-black tracking-tight mb-2">Stay in Touch</h2>

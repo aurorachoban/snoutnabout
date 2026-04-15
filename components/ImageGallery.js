@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Dog, Cat } from "@/components/Icons";
 
 export default function ImageGallery({ images = [], name = "", category = "" }) {
   const [selected, setSelected] = useState(0);
@@ -16,7 +17,7 @@ export default function ImageGallery({ images = [], name = "", category = "" }) 
     setSelected((i) => (i === allImages.length - 1 ? 0 : i + 1));
   }
 
-  const fallbackEmoji = category === "cat" ? "🐱" : "🐶";
+  const FallbackIcon = category === "cat" ? Cat : Dog;
 
   return (
     <div className="flex flex-col gap-3">
@@ -32,8 +33,8 @@ export default function ImageGallery({ images = [], name = "", category = "" }) 
             priority
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-[8rem]">
-            {fallbackEmoji}
+          <div className="w-full h-full flex items-center justify-center">
+            <FallbackIcon className="w-32 h-32 text-gray-300" />
           </div>
         )}
 
@@ -84,8 +85,8 @@ export default function ImageGallery({ images = [], name = "", category = "" }) 
                   sizes="64px"
                 />
               ) : (
-                <div className="w-full h-full bg-gray-100 flex items-center justify-center text-xl">
-                  {fallbackEmoji}
+                <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                  <FallbackIcon className="w-6 h-6 text-gray-300" />
                 </div>
               )}
             </button>

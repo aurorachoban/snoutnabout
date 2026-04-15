@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { PawPrint } from "@/components/Icons";
 
 export default function AuthPage() {
   const { register, login, user } = useAuth();
@@ -59,7 +60,7 @@ export default function AuthPage() {
           {/* Branding */}
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center gap-2">
-              <span className="text-3xl">🐾</span>
+              <PawPrint className="w-8 h-8 text-pink-500" />
               <span className="font-black text-xl text-gray-900">
                 Snout <span className="text-pink-500">&amp;</span> About
               </span>

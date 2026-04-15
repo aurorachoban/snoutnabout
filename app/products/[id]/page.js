@@ -6,6 +6,7 @@ import ImageGallery from "@/components/ImageGallery";
 import ProductTabs from "@/components/ProductTabs";
 import ReviewsSection from "./ReviewsSection";
 import AddToCartSection from "./AddToCartSection";
+import { Truck, Check, MessageCircle, Dog, Cat, Star } from "@/components/Icons";
 
 export const dynamic = "force-dynamic";
 
@@ -171,7 +172,7 @@ export default async function ProductDetailPage({ params }) {
             <div className="flex flex-wrap gap-2">
               {product.features.map((f) => (
                 <span key={f} className="inline-flex items-center gap-1 bg-pink-50 border border-pink-100 text-pink-600 text-xs font-semibold px-3 py-1.5 rounded-full">
-                  <span className="text-base">✓</span> {f}
+                  <Check className="w-3.5 h-3.5" /> {f}
                 </span>
               ))}
             </div>
@@ -189,7 +190,7 @@ export default async function ProductDetailPage({ params }) {
 
           {/* Free delivery nudge */}
           <div className="flex items-center gap-2 text-sm text-gray-500 bg-gray-50 rounded-xl px-4 py-3">
-            <span className="text-lg">🚚</span>
+            <Truck className="w-5 h-5 text-gray-400" />
             <span>Free delivery on orders over <span className="font-semibold text-gray-700">$50</span></span>
           </div>
         </div>
@@ -210,7 +211,7 @@ export default async function ProductDetailPage({ params }) {
           </h2>
           {reviews.length > 0 && (
             <div className="flex items-center gap-2 text-sm text-gray-500">
-              <span className="text-yellow-400 text-lg">★</span>
+              <Star className="w-4 h-4 text-yellow-400" />
               <span className="font-bold text-gray-900">{avgRating.toFixed(1)}</span>
               <span>out of 5</span>
             </div>
@@ -222,7 +223,7 @@ export default async function ProductDetailPage({ params }) {
           <div className="space-y-4">
             {reviews.length === 0 ? (
               <div className="bg-gray-50 rounded-2xl p-8 text-center text-gray-400">
-                <p className="text-3xl mb-2">💬</p>
+                <MessageCircle className="w-10 h-10 mx-auto mb-2 text-gray-300" />
                 <p className="font-medium">No reviews yet</p>
                 <p className="text-sm mt-1">Be the first to share your experience!</p>
               </div>
@@ -263,8 +264,8 @@ export default async function ProductDetailPage({ params }) {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-4xl">
-                      {p.category === "cat" ? "🐱" : "🐶"}
+                    <div className="w-full h-full flex items-center justify-center">
+                      {p.category === "cat" ? <Cat className="w-12 h-12 text-gray-300" /> : <Dog className="w-12 h-12 text-gray-300" />}
                     </div>
                   )}
                 </div>

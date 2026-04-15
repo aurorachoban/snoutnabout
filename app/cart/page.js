@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/contexts/CartContext";
+import { ShoppingCart, PawPrint } from "@/components/Icons";
 
 export default function CartPage() {
   const { items, subtotal, dispatch } = useCart();
@@ -10,7 +11,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-24 text-center">
-        <p className="text-7xl mb-4">🛒</p>
+        <ShoppingCart className="w-20 h-20 mx-auto mb-4 text-gray-300" />
         <h1 className="text-2xl font-black text-gray-900 mb-2">Your cart is empty</h1>
         <p className="text-gray-500 mb-8">Add some items to get started!</p>
         <Link
@@ -39,7 +40,7 @@ export default function CartPage() {
                 {item.image ? (
                   <Image src={item.image} alt={item.name} fill className="object-cover" sizes="80px" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-3xl">🐾</div>
+                  <div className="w-full h-full flex items-center justify-center"><PawPrint className="w-8 h-8 text-gray-300" /></div>
                 )}
               </div>
 

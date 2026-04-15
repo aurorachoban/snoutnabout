@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PartyPopper } from "@/components/Icons";
 
 export const metadata = {
   title: "Order Confirmed — Snout & About",
@@ -10,7 +11,7 @@ export default async function ConfirmationPage({ searchParams }) {
   return (
     <div className="max-w-xl mx-auto px-4 py-24 text-center">
       <div className="bg-white rounded-3xl border border-gray-100 shadow-xl p-10">
-        <div className="text-7xl mb-4">🎉</div>
+        <PartyPopper className="w-20 h-20 mx-auto mb-4 text-pink-500" />
         <h1 className="text-3xl font-black text-gray-900 mb-2">Order Confirmed!</h1>
         <p className="text-gray-500 mb-6">
           Thank you for shopping with Snout &amp; About. Your furry friend is going to love it!
