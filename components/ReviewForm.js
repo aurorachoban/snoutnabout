@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -20,16 +20,45 @@ export default function ReviewForm({ productId, onSubmitted }) {
     setError("");
     setLoading(true);
     try {
-      await addDoc(collection(db, "products", productId, "reviews"), {
+      const reviewData = {
         uid: user.uid,
         displayName: user.displayName || "Anonymous",
         rating,
         text: text.trim(),
         createdAt: serverTimestamp(),
-      });
+      };
+
+      // Write the review document
+      const reviewRef = await addDoc(
+        collection(db, "products", productId, "reviews"),
+        reviewData
+      );
+
+      // Recalculate and update the product's denormalised rating + reviewCount
+      try {
+        const productRef = doc(db, "products", productId);
+        const productSnap = await getDoc(productRef);
+        if (productSnap.exists()) {
+          const { rating: oldRating = 0, reviewCount: oldCount = 0 } = productSnap.data();
+          const newCount = oldCount + 1;
+          const newRating = Math.round(((oldRating * oldCount) + rating) / newCount * 10) / 10;
+          await updateDoc(productRef, { rating: newRating, reviewCount: newCount });
+        }
+      } catch {
+        // Non-fatal — review was saved, stat update failed silently
+      }
+
       setRating(0);
       setText("");
-      onSubmitted?.();
+      // Pass the new review back so the parent can add it to the list immediately
+      onSubmitted?.({
+        id: reviewRef.id,
+        uid: user.uid,
+        displayName: user.displayName || "Anonymous",
+        rating,
+        text: text.trim(),
+        createdAt: new Date(),
+      });
     } catch {
       setError("Failed to submit review. Please try again.");
     } finally {

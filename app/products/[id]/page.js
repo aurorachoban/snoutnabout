@@ -6,7 +6,7 @@ import ImageGallery from "@/components/ImageGallery";
 import ProductTabs from "@/components/ProductTabs";
 import ReviewsSection from "./ReviewsSection";
 import AddToCartSection from "./AddToCartSection";
-import { Truck, Check, MessageCircle, Dog, Cat, Star } from "@/components/Icons";
+import { Truck, Check, Dog, Cat } from "@/components/Icons";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +23,16 @@ async function getReviews(id) {
     const snap = await getDocs(
       query(collection(db, "products", id, "reviews"), orderBy("createdAt", "desc"))
     );
-    return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    // Serialize Firestore Timestamps to ISO strings so they can be passed
+    // as props to the client ReviewsSection component
+    return snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        ...data,
+        createdAt: data.createdAt?.toDate?.().toISOString() ?? null,
+      };
+    });
   } catch {
     return [];
   }
@@ -69,31 +78,6 @@ function StarRow({ rating, count }) {
       <span className="text-sm text-gray-500 font-medium">
         {rating.toFixed(1)} <span className="text-gray-300">·</span> {count} review{count !== 1 ? "s" : ""}
       </span>
-    </div>
-  );
-}
-
-// Individual review card shown in the reviews grid
-function ReviewCard({ review }) {
-  return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-      <div className="flex items-center gap-3 mb-3">
-        {/* Avatar shows first letter of reviewer's display name */}
-        <div className="w-8 h-8 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold text-sm shrink-0">
-          {review.displayName?.[0]?.toUpperCase() ?? "?"}
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-gray-900">{review.displayName}</p>
-          <div className="flex gap-0.5 mt-0.5">
-            {[1,2,3,4,5].map((s) => (
-              <svg key={s} className={`w-3.5 h-3.5 ${s <= review.rating ? "text-yellow-400" : "text-gray-200"}`} fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            ))}
-          </div>
-        </div>
-      </div>
-      <p className="text-sm text-gray-600 leading-relaxed">{review.text}</p>
     </div>
   );
 }
@@ -203,41 +187,9 @@ export default async function ProductDetailPage({ params }) {
         details={product.details}
       />
 
-      {/* Reviews section: existing reviews + write-a-review form side by side */}
+      {/* Reviews section — fully client-managed so new reviews appear instantly */}
       <section className="mt-14">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-black text-gray-900">
-            {reviews.length > 0 ? `Reviews (${reviews.length})` : "Reviews"}
-          </h2>
-          {reviews.length > 0 && (
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <Star className="w-4 h-4 text-yellow-400" />
-              <span className="font-bold text-gray-900">{avgRating.toFixed(1)}</span>
-              <span>out of 5</span>
-            </div>
-          )}
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Left column: existing review cards */}
-          <div className="space-y-4">
-            {reviews.length === 0 ? (
-              <div className="bg-gray-50 rounded-2xl p-8 text-center text-gray-400">
-                <MessageCircle className="w-10 h-10 mx-auto mb-2 text-gray-300" />
-                <p className="font-medium">No reviews yet</p>
-                <p className="text-sm mt-1">Be the first to share your experience!</p>
-              </div>
-            ) : (
-              reviews.map((r) => <ReviewCard key={r.id} review={r} />)
-            )}
-          </div>
-
-          {/* Right column: review submission form (client component) */}
-          <div className="bg-gray-50 rounded-2xl p-6">
-            <h3 className="font-black text-gray-900 text-lg mb-5">Write a Review</h3>
-            <ReviewsSection productId={id} initialReviews={reviews} />
-          </div>
-        </div>
+        <ReviewsSection productId={id} initialReviews={reviews} />
       </section>
 
       {/* Related products carousel — only shown when results exist */}

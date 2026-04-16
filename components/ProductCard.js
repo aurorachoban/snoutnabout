@@ -40,6 +40,7 @@ export default function ProductCard({ product }) {
 
   // Adds the base product (no variant) to the cart with a short visual confirmation
   function handleAddToCart() {
+    if (product.inStock === false) return;
     dispatch({ type: "ADD", item: { id: product.id, name: product.name, price: product.price, image: product.image } });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
@@ -110,16 +111,22 @@ export default function ProductCard({ product }) {
 
         <div className="flex items-center justify-between mt-auto pt-2">
           <span className="text-lg font-bold text-gray-900">${product.price?.toFixed(2)}</span>
-          <button
-            onClick={handleAddToCart}
-            className={`text-xs font-semibold px-3 py-2 rounded-full transition-all ${
-              added
-                ? "bg-green-500 text-white"
-                : "bg-pink-500 text-white hover:bg-pink-600"
-            }`}
-          >
-            {added ? "Added!" : "+ Cart"}
-          </button>
+          {product.inStock === false ? (
+            <span className="text-xs font-semibold px-3 py-2 rounded-full bg-gray-100 text-gray-400 cursor-not-allowed">
+              Out of Stock
+            </span>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              className={`text-xs font-semibold px-3 py-2 rounded-full transition-all ${
+                added
+                  ? "bg-green-500 text-white"
+                  : "bg-pink-500 text-white hover:bg-pink-600"
+              }`}
+            >
+              {added ? "Added!" : "+ Cart"}
+            </button>
+          )}
         </div>
       </div>
     </div>

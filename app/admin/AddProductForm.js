@@ -5,7 +5,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 const CATEGORIES = ["dog", "cat"];
-const TYPES = ["food", "treats", "toys", "accessories", "grooming", "health"];
+const TYPES = ["food", "treats", "toys", "accessories"];
 
 export default function AddProductForm({ onAdded }) {
   const [loading, setLoading] = useState(false);
