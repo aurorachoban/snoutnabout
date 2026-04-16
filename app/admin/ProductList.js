@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { collection, getDocs, deleteDoc, doc, orderBy, query, updateDoc } from "firebase/firestore";
-import { ref, deleteObject } from "firebase/storage";
-import { db, storage } from "@/lib/firebase";
+import { db } from "@/lib/firebase";
 import Image from "next/image";
 import Link from "next/link";
 import { Package, Dog, Cat, Star } from "@/components/Icons";
@@ -34,15 +33,6 @@ export default function ProductList({ refreshKey }) {
     if (!confirm(`Delete "${product.name}"? This cannot be undone.`)) return;
     setDeleting(product.id);
     try {
-      // Delete images from Storage
-      const images = product.images ?? (product.image ? [product.image] : []);
-      for (const url of images) {
-        try {
-          await deleteObject(ref(storage, url));
-        } catch {
-          // ignore — file may already be gone
-        }
-      }
       await deleteDoc(doc(db, "products", product.id));
       setProducts((p) => p.filter((x) => x.id !== product.id));
     } catch {
