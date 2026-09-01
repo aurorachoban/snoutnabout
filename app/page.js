@@ -10,17 +10,31 @@ import { Dog, Cat, Truck, Heart, RotateCcw, PawPrint } from "@/components/Icons"
 // prerender this page at build time (Firestore can't be called during build)
 export const dynamic = "force-dynamic";
 
-// Fetches products marked as featured for the homepage grid
+// Fetches products marked as featured for the homepage grid.
+// Falls back to the newest products if nothing is flagged featured, so the
+// homepage never renders an empty grid while the catalogue has stock.
+function serialise(snap) {
+  return snap.docs.map((d) => ({
+    id: d.id,
+    ...d.data(),
+    createdAt: d.data().createdAt?.toDate?.()?.toISOString() ?? null,
+  }));
+}
+
 async function getFeaturedProducts() {
   try {
-    const q = query(collection(db, "products"), where("featured", "==", true), limit(8));
-    const snap = await getDocs(q);
-    return snap.docs.map((d) => ({
-      id: d.id,
-      ...d.data(),
-      createdAt: d.data().createdAt?.toDate?.()?.toISOString() ?? null,
-    }));
-  } catch {
+    const featuredSnap = await getDocs(
+      query(collection(db, "products"), where("featured", "==", true), limit(8))
+    );
+    if (!featuredSnap.empty) return serialise(featuredSnap);
+
+    console.warn("No featured products found, falling back to latest products");
+    const fallbackSnap = await getDocs(
+      query(collection(db, "products"), limit(8))
+    );
+    return serialise(fallbackSnap);
+  } catch (err) {
+    console.error("Failed to load homepage products:", err);
     return [];
   }
 }
