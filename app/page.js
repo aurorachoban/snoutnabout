@@ -118,7 +118,7 @@ export default async function Home() {
           // Empty state shown before seeding Firestore
           <div className="text-center py-16 text-gray-400">
             <PawPrint className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-            <p className="font-medium">Products coming soon!</p>
+            <p className="font-medium">Products coming soon (build check)</p>
             <p className="text-sm mt-1">Check back after you&apos;ve seeded Firestore with products.</p>
           </div>
         )}
